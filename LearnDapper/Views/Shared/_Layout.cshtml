@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Dapper</title>
+</head>
+<body>
+
+    <style>
+        ul {
+            list-style: none;
+            background: #aaaaaa;
+        }
+        ul li {
+            display: inline-block;
+        }
+        ul li a {
+            display: inline-block;
+            text-decoration: none;
+            padding: 10px 15px;
+            color: #484848;
+            font-size: 1.5rem;
+        }
+        ul li a:hover {
+            background: #585858;
+            color: #fafafa;
+        }
+    </style>
+
+    <div>
+        <ul>
+            <li>
+                <a href="/Home/Index">Home</a>
+            </li>
+            <li>
+                <a href="/Home/GetUser/2">Get a user</a>
+            </li>
+            <li>
+                <a href="/Home/Create">Create</a>
+            </li>
+        </ul>
+        @RenderBody()
+    </div>
+</body>
+</html>

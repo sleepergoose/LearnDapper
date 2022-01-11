@@ -1,0 +1,23 @@
+﻿@model ICollection<LearnDapper.Models.User>
+
+@{ 
+    Layout = "_Layout";
+}
+
+<h1>Introduction to Dapper</h1>
+<h3>Data will be below</h3>
+
+<table>
+    @{
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Age</td>
+            </tr>
+        }
+    }
+</table>
+
+
