@@ -1,7 +1,9 @@
-﻿using LearnDapper.DAL.Repositories;
+﻿using Dapper;
+using LearnDapper.DAL.Repositories;
 using LearnDapper.Models;
 using MediatR;
 using System;
+using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,11 +17,11 @@ namespace LearnDapper.Business.Commands
 
     public class AddUserCommandHandler : IRequestHandler<AddUserCommand, User>
     {
-        private readonly IUserRepository _repo;
+        private readonly IDbConnection _connection;
 
-        public AddUserCommandHandler(IUserRepository repo)
+        public AddUserCommandHandler(IDbConnection connection)
         {
-            _repo = repo ?? throw new ArgumentNullException(nameof(_repo));
+            _connection = connection;
         }
 
         public async Task<User> Handle(AddUserCommand command, CancellationToken cancellationToken)
@@ -31,7 +33,19 @@ namespace LearnDapper.Business.Commands
                 Age = command.Age
             };
 
-            return await _repo.CreateAsync(user);
+            const string sql =
+                    @"INSERT INTO Users (
+                        Name, 
+                        Age) 
+                    VALUES (
+                        @Name, 
+                        @Age)
+                    SELECT CAST(SCOPE_IDENTITY() as int)";
+
+            var id = await _connection.QueryFirstAsync<int>(sql, user);
+            user.Id = id;
+
+            return user;
         }
     }
 }
