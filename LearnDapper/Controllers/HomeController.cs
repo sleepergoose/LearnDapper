@@ -1,5 +1,6 @@
 ﻿using LearnDapper.Business.Commands;
 using LearnDapper.Business.Queries;
+using LearnDapper.Business.Services;
 using LearnDapper.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -9,25 +10,23 @@ namespace LearnDapper.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IMediator _mediator;
+        private readonly UserService _userService;
 
-        public HomeController(IMediator mediator)
+        public HomeController(UserService userService)
         {
-            _mediator = mediator;
+            _userService = userService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var users = await _mediator.Send(new GetUsersQuery());
+            var users = await _userService.GetUsersAsync();
 
             return View("Index", users);
         }
 
-        public async Task<IActionResult> GetUser(int id)
+        public IActionResult GetUser()
         {
-            var user = await _mediator.Send(new GetUserByIdQuery() { UserId = id });
-
-            return View("UserView", user);
+            return View("UserView");
         }
 
         [HttpGet]
@@ -39,13 +38,7 @@ namespace LearnDapper.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(User user)
         {
-            var command = new AddUserCommand
-            {
-                Name = user.Name,
-                Age = user.Age
-            };
-
-            User createdUser = await _mediator.Send(command);
+            User createdUser = await _userService.CreateUserAsync(user);
             return View("UserView", createdUser);
         }
     }
