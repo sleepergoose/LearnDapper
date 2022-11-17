@@ -10,6 +10,9 @@ namespace LearnDapper.Business.Services
     public sealed class UserService
     {
         private readonly IMediator _mediator;
+private readonly IMediator _mediator1; // ADDED
+private readonly IMediator _mediator2; // ADDED
+private readonly IMediator _mediator3; // ADDED
 
         public UserService(IMediator mediator)
         {
