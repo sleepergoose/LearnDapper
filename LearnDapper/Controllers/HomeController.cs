@@ -12,6 +12,10 @@ namespace LearnDapper.Controllers
     {
         private readonly UserService _userService;
 
+        private readonly UserService _userService1; // ADDED 
+        private readonly UserService _userService2; // ADDED 
+        private readonly UserService _userService3; // ADDED 
+
         public HomeController(UserService userService)
         {
             _userService = userService;
